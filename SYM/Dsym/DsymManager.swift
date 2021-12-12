@@ -25,7 +25,7 @@ import Combine
 
 class DsymFile: Hashable {
     let name: String
-    let path: String
+    var path: String?
     let uuids: [String]
     let binaryPath: String
     let isApp: Bool

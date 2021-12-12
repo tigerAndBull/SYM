@@ -37,6 +37,23 @@ class MainWindowController: NSWindowController {
     @IBOutlet weak var indicator: NSProgressIndicator!
     @IBOutlet weak var dsymPopUpButton: DsymToolBarButton!
     
+    @IBOutlet weak var importCrashItem: DownloadToolbarItem!
+    
+    @IBAction func didClickImportCrashAction(_ sender: Any) {
+        let openPanel = NSOpenPanel()
+        openPanel.allowsMultipleSelection = false
+        openPanel.canChooseDirectories = false
+        openPanel.canCreateDirectories = false
+        openPanel.canChooseFiles = false
+        
+        openPanel.begin { [weak openPanel] (result) in
+            guard result == .OK, let url = openPanel?.url else {
+                return
+            }
+            
+        }
+    }
+    
     var isSymbolicating: Bool = false {
         didSet {
             DispatchQueue.main.async {
@@ -154,6 +171,7 @@ class MainWindowController: NSWindowController {
 
     @IBAction func showDsymInfo(_ sender: Any) {
         guard self.dsymManager.crash != nil else {
+            
             return
         }
         let storyboard = NSStoryboard(name: NSStoryboard.Name("Dsym"), bundle: nil)

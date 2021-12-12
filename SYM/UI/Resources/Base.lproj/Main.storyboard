@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17701"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19455"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -469,7 +470,7 @@
                                     </progressIndicator>
                                 </toolbarItem>
                                 <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="fQX-8I-pLN"/>
-                                <toolbarItem implicitItemIdentifier="3BAF066C-E5CB-4E93-935A-AC8D1EA73E49" label="dSYM" paletteLabel="dSYM" toolTip="Choose or download dSYM file" image="alert" sizingBehavior="auto" id="CeZ-6B-0tO">
+                                <toolbarItem implicitItemIdentifier="3BAF066C-E5CB-4E93-935A-AC8D1EA73E49" label="dSYM" paletteLabel="dSYM" toolTip="Choose or download dSYM file" image="alert" title="dSYM file not found" sizingBehavior="auto" id="CeZ-6B-0tO">
                                     <popUpButton key="view" id="Nv0-ye-SGb" customClass="DsymToolBarButton" customModule="SYM" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="14" width="163" height="19"/>
                                         <autoresizingMask key="autoresizingMask"/>
@@ -534,6 +535,20 @@
                                         <segue destination="w6G-BI-E5o" kind="popover" popoverAnchorView="xdu-0Z-Pvp" popoverBehavior="t" preferredEdge="maxY" id="euS-D8-ewc"/>
                                     </connections>
                                 </toolbarItem>
+                                <toolbarItem implicitItemIdentifier="48F690B0-D42B-445E-A130-4BDEE5D9E70F" label="导入crash文件" paletteLabel="导入crash文件" toolTip="Download dSYM file" image="icloud.and.arrow.down.fill" catalog="system" sizingBehavior="auto" id="QaP-ig-AuZ" customClass="DownloadToolbarItem" customModule="SYM" customModuleProvider="target">
+                                    <button key="view" springLoaded="YES" imageHugsTitle="YES" id="JQ0-Z1-xIK">
+                                        <rect key="frame" x="33" y="14" width="18" height="17"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <buttonCell key="cell" type="bevel" bezelStyle="rounded" image="icloud.and.arrow.down.fill" catalog="system" imagePosition="only" alignment="center" controlSize="large" state="on" imageScaling="proportionallyUpOrDown" inset="2" id="7d9-3W-2Ui">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <color key="contentTintColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
+                                    </button>
+                                    <connections>
+                                        <action selector="didClickImportCrashAction:" target="akE-CK-Bh4" id="Na1-S3-Vef"/>
+                                    </connections>
+                                </toolbarItem>
                             </allowedToolbarItems>
                             <defaultToolbarItems>
                                 <toolbarItem reference="59w-fW-llj"/>
@@ -556,6 +571,7 @@
                         <outlet property="downloadIndicator" destination="X9S-hi-O70" id="Ns9-bD-QRC"/>
                         <outlet property="downloadItem" destination="xdu-0Z-Pvp" id="rD8-3B-piS"/>
                         <outlet property="dsymPopUpButton" destination="Nv0-ye-SGb" id="CoR-6R-2XD"/>
+                        <outlet property="importCrashItem" destination="QaP-ig-AuZ" id="fhA-l1-EXY"/>
                         <outlet property="indicator" destination="zP5-Pn-E5C" id="z4w-VT-HaL"/>
                         <segue destination="5WI-tf-yEY" kind="relationship" relationship="window.shadowedContentViewController" id="Lwr-gD-c6J"/>
                     </connections>

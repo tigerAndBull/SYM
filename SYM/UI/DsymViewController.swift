@@ -34,11 +34,23 @@ class DsymTableCellView: NSTableCellView {
     @IBOutlet weak var uuid: NSTextField!
     @IBOutlet weak var path: NSTextField!
     @IBOutlet weak var actionButton: NSButton!
+    var deleteButton: NSButton!
     
     weak var delegate: DsymTableCellViewDelegate?
     
     var binary: Binary!
     var dsym: DsymFile?
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        deleteButton = NSButton.init(title: "删除", target: self, action: #selector(didClickDelete(_:)))
+        deleteButton.font = NSFont.systemFont(ofSize: 10)
+        self.addSubview(deleteButton)
+    }
+    
+    override func layout() {
+        self.deleteButton.frame = NSRect.init(x: self.actionButton.frame.origin.x + self.actionButton.frame.size.width + 12, y: self.actionButton.frame.origin.y, width: 55, height: 20)
+    }
     
     func updateUI() {
         self.title.stringValue = self.binary.name
@@ -46,10 +58,18 @@ class DsymTableCellView: NSTableCellView {
         if let path = self.dsym?.path {
             self.path.stringValue = path
             self.actionButton.title = NSLocalizedString("Reveal", comment: "Reveal in Finder")
+            self.deleteButton.isHidden = false
+            self.deleteButton.title = "删除"
         } else {
             self.path.stringValue = NSLocalizedString("dsym_file_not_found", comment: "Dsym file not found")
             self.actionButton.title = NSLocalizedString("Import", comment: "Import a dSYM file")
+            self.deleteButton.isHidden = true
         }
+    }
+    
+    @IBAction func didClickDelete(_ sender: Any) {
+        self.dsym?.path = nil
+        updateUI()
     }
     
     @IBAction func didClickActionButton(_ sender: NSButton) {
@@ -66,6 +86,74 @@ class DsymViewController: NSViewController {
     @IBOutlet weak var tableViewHeight: NSLayoutConstraint!
     @IBOutlet weak var downloadButton: NSButton!
     @IBOutlet weak var progressBar: NSProgressIndicator!
+    
+    var importButton: NSButton!
+    
+    override func loadView() {
+        super.loadView()
+        importButton = NSButton.init(title: "一键导入", target: self, action: #selector(importAction))
+        self.view.addSubview(importButton)
+    }
+    
+    override init(nibName nibNameOrNil: NSNib.Name?, bundle nibBundleOrNil: Bundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+    
+    @objc func importAction() {
+        let openPanel = NSOpenPanel()
+        openPanel.allowsMultipleSelection = true
+        openPanel.canChooseDirectories = true
+        openPanel.canCreateDirectories = false
+        openPanel.canChooseFiles = true
+        
+        openPanel.begin { [weak openPanel] (result) in
+            guard result == .OK, let url = openPanel?.url else {
+                return
+            }
+            
+            if (url.absoluteString.hasSuffix("dSYM")) {
+                let element = url.absoluteString
+                self.dsymManager?.binaries.forEach({ binary in
+                    if element.hasSuffix("dSYM") {
+                        if element.contains(binary.name) {
+                            print("111", binary.name)
+                            self.dsymFile(forBinary: binary)?.path = element
+                        }
+                    }
+                })
+                self.tableView.reloadData()
+                return
+            }
+            
+            var filePath = url.absoluteString
+            if (filePath.hasPrefix("file://")) {
+                filePath = filePath.substring(from: filePath.index(filePath.startIndex, offsetBy: 7))
+            }
+            let enumerator = FileManager.default.enumerator(atPath: filePath)
+            while let element = enumerator?.nextObject() as? String {
+                self.dsymManager?.binaries.forEach({ binary in
+                    if element.hasSuffix("dSYM") {
+                        if element.contains(binary.name) {
+                            print(binary.name)
+                            print(element)
+                            let elementFilePath = filePath + element
+                            print(elementFilePath)
+                            self.dsymManager?.assign(binary, dsymFileURL: URL.init(fileURLWithPath: elementFilePath))
+                        }
+                    }
+                })
+            }
+            self.tableView.reloadData()
+        }
+    }
+    
+    override func viewDidLayout() {
+        self.importButton.frame = NSRect.init(x: self.downloadButton.frame.origin.x - 80 - 5, y: self.downloadButton.frame.origin.y + 5 , width: 80, height: 20)
+    }
     
     private var binaries: [Binary] = [] {
         didSet {

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="dar-vU-IbA">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="dar-vU-IbA">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17506"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19455"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -74,6 +75,17 @@
                                                                     </buttonCell>
                                                                     <connections>
                                                                         <action selector="didClickActionButton:" target="Itq-30-i3Z" id="IVq-7Y-Tg4"/>
+                                                                    </connections>
+                                                                </button>
+                                                                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="duB-VE-Fwv">
+                                                                    <rect key="frame" x="11" y="72" width="517" height="18"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                    <buttonCell key="cell" type="inline" title="delete" bezelStyle="inline" alignment="center" controlSize="small" borderStyle="border" inset="2" id="aGr-nY-Tvd">
+                                                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                                        <font key="font" metaFont="systemBold" size="10"/>
+                                                                    </buttonCell>
+                                                                    <connections>
+                                                                        <action selector="didClickActionButton:" target="Itq-30-i3Z" id="Djp-MS-zSs"/>
                                                                     </connections>
                                                                 </button>
                                                             </subviews>

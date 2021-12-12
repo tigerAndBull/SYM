@@ -42,6 +42,7 @@ class TextView: NSTextView {
                 let fileURL = URL(fileURLWithPath: path)
                 NSDocumentController.shared.openDocument(withContentsOf: fileURL, display: true, completionHandler: { (doc: NSDocument?, success: Bool, error: Error?) in
                     // Do nothing
+                    print("selected crash file")
                 })
             }
             
