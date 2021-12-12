@@ -138,10 +138,7 @@ class DsymViewController: NSViewController {
                 self.dsymManager?.binaries.forEach({ binary in
                     if element.hasSuffix("dSYM") {
                         if element.contains(binary.name) {
-                            print(binary.name)
-                            print(element)
                             let elementFilePath = filePath + element
-                            print(elementFilePath)
                             self.dsymManager?.assign(binary, dsymFileURL: URL.init(fileURLWithPath: elementFilePath))
                         }
                     }
